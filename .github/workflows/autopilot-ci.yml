@@ -1,0 +1,18 @@
+# CI de base — GÉNÉRÉ par le runner autopilot (STORY-009 AC3) depuis runner/templates/ci.yml.
+# Étape déterministe du runner : jamais écrit ni modifié par un agent (.github/workflows/** est
+# un chemin protégé, STORY-011 AC1). Checks détectés depuis pyproject.toml/package.json.
+name: ci
+on:
+  pull_request:
+  push:
+    branches: ["main"]
+permissions:
+  contents: read
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv sync --all-extras --dev
+      - run: uv run --with pytest pytest
