@@ -45,7 +45,7 @@ def test_ac1_canary_date_is_today_utc():
 
 
 def test_ac2_canary_md_contains_valid_iso_date():
-    _canary_date()
+    assert _canary_date() == datetime.now(timezone.utc).date()
 
 
 def test_ac3_smoke_stays_green_and_no_other_file_touched():
