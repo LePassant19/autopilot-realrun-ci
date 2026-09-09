@@ -1,8 +1,10 @@
 import datetime
 import re
+import subprocess
 from pathlib import Path
 
-CANARY_PATH = Path(__file__).resolve().parent.parent / "CANARY.md"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+CANARY_PATH = REPO_ROOT / "CANARY.md"
 
 
 def _read_canary_date() -> datetime.date:
@@ -23,3 +25,29 @@ def test_ac2_canary_date_matches_utc_today():
     parsed_date = _read_canary_date()
     assert isinstance(parsed_date, datetime.date)
     assert parsed_date == today_utc
+
+
+def _merge_base_with_main() -> str:
+    for ref in ("main", "origin/main"):
+        result = subprocess.run(
+            ["git", "merge-base", "HEAD", ref],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            return result.stdout.strip()
+    raise RuntimeError("no local or remote 'main' ref found to diff against")
+
+
+def test_ac3_only_canary_files_changed_since_main():
+    base = _merge_base_with_main()
+    changed = subprocess.run(
+        ["git", "diff", "--name-only", base, "HEAD"],
+        cwd=REPO_ROOT,
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout.splitlines()
+    assert changed, "expected the canary story to add/modify at least one file"
+    assert set(changed) <= {"CANARY.md", "tests/test_canary.py"}
