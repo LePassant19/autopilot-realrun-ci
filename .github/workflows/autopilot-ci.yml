@@ -13,6 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # `fetch-depth: 0` : sans lui, clone superficiel, pas de ref `main`, donc
+          # `git merge-base HEAD main` est vide et tout AC de périmètre est inprouvable en CI.
+          # Aligné sur `runner/templates/ci.yml` (harness) — canari ROUGE du 2026-09-09.
+          fetch-depth: 0
       - uses: astral-sh/setup-uv@v5
       - run: uv sync --all-extras --dev
       - run: uv run --with pytest pytest
