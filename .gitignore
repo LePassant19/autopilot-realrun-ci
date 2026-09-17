@@ -3,10 +3,3 @@ __pycache__/
 .autopilot/
 *.db
 
-# `uv run`/`uv sync` recrée un `uv.lock` local dès qu'ils tournent dans ce projet, même sans
-# dépendance. Le runner stage par NOM mais énumère ses candidats depuis `git status`, qui capte les
-# non suivis : cet artefact repassait donc dans le commit à chaque tentative et cassait l'AC3 de
-# STORY-009 (« aucune modification hors CANARY.md et tests/test_canary.py ») — canari ROUGE le
-# 2026-09-09, file gelée, et déjà observé sur deux tentatives le 6 septembre.
-# Ce repo est une fixture rejouable : le lock n'y a aucune valeur de reproductibilité.
-uv.lock
