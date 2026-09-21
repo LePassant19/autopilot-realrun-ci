@@ -1,6 +1,6 @@
 # STORY-009 — Canari : consigner la date du jour dans CANARY.md
 
-> status: review | epic: EPIC-canary | estimate: S | priority: must | depends_on: — | updated: 2026-09-21
+> status: ready | epic: EPIC-canary | estimate: S | priority: must | depends_on: — | updated: 2026-09-17
 
 ## Récit
 **En tant que** runner autopilot, **je veux** qu'une story triviale traverse dev → checks → gates → PR → CI, **afin de** prouver chaque matin que le moteur tourne avant de dépenser sur une vraie story (harness STORY-048).
