@@ -1,3 +1,3 @@
 # Canary
 
-canary 2026-10-16
+canary 2026-10-17
